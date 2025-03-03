@@ -6,27 +6,27 @@ import {supabase} from '@/lib/supabaseClient'
 import {ref, onMounted} from 'vue'
 import type {Tables} from '../../../database/types'
 
-const projects = ref<Tables<'projects'>[] | null>(null)
+const tasks = ref<Tables<'tasks'>[] | null>(null)
 const error = ref()
 
 onMounted(async () => {
-  const {data, error: supaError} = await supabase.from('projects').select('*')
+  const {data, error: supaError} = await supabase.from('tasks').select('*')
   if(supaError) {
     error.value = supaError.message
   } else {
-    projects.value = data
+    tasks.value = data
   }
 })
 </script>
 
 <template>
-  <div class="project-view">
+  <div class="task-view">
     <RouterLink to='/'>Homepage </RouterLink>
-    <h1>Projects</h1>
+    <h1>tasks</h1>
     <div v-if="error">{{error}}</div>
-    <div v-else-if="projects">
-      <li v-for="project in projects " :key="project.id">
-        {{project.name}}
+    <div v-else-if="tasks">
+      <li v-for="task in tasks " :key="task.id">
+        {{task.name}}
       </li>
     </div>
   </div>
